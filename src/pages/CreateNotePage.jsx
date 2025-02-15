@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import RichTextEditor from "../components/RichTextEditor";
 import { useNavigate } from "react-router-dom";
+import { Button, Input, Card, Space, Typography, message, Row, Col } from "antd";
+import { HomeOutlined, SaveOutlined, ClearOutlined, CheckOutlined } from "@ant-design/icons";
+
+const { Title } = Typography;
+const { TextArea } = Input;
 
 const CreateNotePage = () => {
   const [title, setTitle] = useState(""); // 笔记标题
@@ -20,13 +25,13 @@ const CreateNotePage = () => {
   // 保存内容（暂存到 localStorage）
   const handleSave = () => {
     if (!title.trim() && !content.trim()) {
-      alert("标题和内容都为空，无法保存！");
+      message.error("标题和内容都为空，无法保存！");
       return;
     }
 
     const draft = { title, content };
-    localStorage.setItem("draftNote", JSON.stringify(draft)); // 暂存到 localStorage
-    alert("内容已暂存！");
+    localStorage.setItem("draftNote", JSON.stringify(draft));
+    message.success("内容已暂存！");
   };
 
   // 清空内容
@@ -70,25 +75,57 @@ const CreateNotePage = () => {
   };
 
   return (
-    <div>
-      <h1>创建新笔记</h1>
-      <div>
-        <label>
-          笔记标题：
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="输入标题"
-          />
-        </label>
-      </div>
-      <RichTextEditor value={content} onChange={setContent} />
-      <div style={{ marginTop: "20px" }}>
-        <button onClick={handleSave}>保存</button>
-        <button onClick={handleClear}>清空</button>
-        <button onClick={handleSubmit}>提交</button>
-      </div>
+    <div className="homepage-content">
+      <Row justify="center">
+        <Col xs={24} sm={24} md={20} lg={16} xl={14}>
+          <Card>
+            <Title level={2}>创建新笔记</Title>
+            
+            <Space direction="vertical" size="large" style={{ width: "100%" }}>
+              <Input
+                placeholder="输入笔记标题"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                size="large"
+              />
+              
+              <RichTextEditor value={content} onChange={setContent} />
+              
+              <Row gutter={[8, 8]}>
+                <Col xs={24} sm={8}>
+                  <Button 
+                    icon={<SaveOutlined />} 
+                    onClick={handleSave}
+                    block
+                  >
+                    保存草稿
+                  </Button>
+                </Col>
+                <Col xs={24} sm={8}>
+                  <Button 
+                    icon={<ClearOutlined />} 
+                    onClick={handleClear}
+                    danger
+                    block
+                  >
+                    清空内容
+                  </Button>
+                </Col>
+                <Col xs={24} sm={8}>
+                  <Button 
+                    type="primary"
+                    icon={<CheckOutlined />}
+                    onClick={handleSubmit}
+                    block
+                  >
+                    提交笔记
+                  </Button>
+                </Col>
+              </Row>
+            </Space>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

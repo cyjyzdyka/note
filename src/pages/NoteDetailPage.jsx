@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button, Card, Typography, Space, Divider } from "antd";
+import { HomeOutlined, EditOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+
+const { Title, Paragraph } = Typography;
 
 function NoteDetailPage() {
   const { noteId } = useParams(); // 获取 URL 中的 noteId
   const [note, setNote] = useState(null);
+  const navigate = useNavigate();
 
   // 模拟从虚拟数据库获取单篇笔记
   useEffect(() => {
@@ -22,23 +27,37 @@ function NoteDetailPage() {
   }, [noteId]);
 
   if (!note) {
-    return <p>笔记未找到！</p>;
+    return <div style={{ textAlign: 'center', padding: '50px' }}>笔记未找到！</div>;
   }
 
   return (
     <div className="note-detail">
-      <h1>{note.title}</h1>
-      <p>{note.content}</p>
-      <p>创建日期：{note.date}</p>
+      <div className="homepage-content">
+        <Space>
+          <Button 
+            icon={<ArrowLeftOutlined />}
+            onClick={() => navigate("/notes")}
+          >
+            返回笔记列表
+          </Button>
+        </Space>
 
-      {/* 操作按钮 */}
-      <div className="actions">
-        <Link to={`/edit/${note.id}`} className="btn">
-          编辑笔记
-        </Link>
-        <Link to="/notes" className="btn">
-          返回所有笔记
-        </Link>
+        <Card style={{ marginTop: 16 }}>
+          <Typography>
+            <Title level={2}>{note.title}</Title>
+            <Paragraph>{note.content}</Paragraph>
+            <Divider />
+            <Paragraph type="secondary">创建日期：{note.date}</Paragraph>
+          </Typography>
+
+          <Button 
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => navigate(`/edit/${note.id}`)}
+          >
+            编辑笔记
+          </Button>
+        </Card>
       </div>
     </div>
   );

@@ -52,8 +52,274 @@
 
 .card {
   padding: 2em;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .read-the-docs {
   color: #888;
+}
+
+.search-container {
+  position: relative;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-wrapper .ant-input-search {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.search-wrapper .ant-input-search .ant-input-wrapper {
+  transition: all 0.3s ease;
+}
+
+.search-wrapper:not(.expanded) .ant-input-search .ant-input-wrapper {
+  opacity: 0;
+}
+
+.search-wrapper.expanded .ant-input-search {
+  margin-right: 8px;
+}
+
+.search-button {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: none !important;
+  backdrop-filter: blur(5px);
+  color: white !important;
+  transition: all 0.3s ease !important;
+}
+
+.search-button:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
+  transform: scale(1.05);
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-result-item:hover {
+  background-color: #f5f5f5;
+}
+
+.search-result-item h4 {
+  margin: 0;
+  color: #1677ff;
+}
+
+.search-result-item p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 12px;
+}
+
+.search-wrapper .ant-input-search input {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+}
+
+.search-wrapper .ant-input-search input::placeholder {
+  color: #666;
+}
+
+.ant-layout-header {
+  background: linear-gradient(90deg, #1677ff 0%, #4096ff 100%);
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ant-layout-header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.homepage .ant-typography h1 {
+  margin-bottom: 16px;
+  font-size: 2.5em;
+  background: linear-gradient(90deg, #1677ff 0%, #4096ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove old header styles */
+.homepage-header,
+.header-logo,
+.header-text {
+  display: none;
+}
+
+/* New header styles */
+.app-header {
+  background: linear-gradient(90deg, #1677ff 0%, #4096ff 100%);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.app-header .header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-header .home-button {
+  color: white;
+  font-size: 18px;
+  padding: 4px 15px;
+  height: auto;
+}
+
+.app-header .home-button:hover {
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Update content styles */
+.homepage-content {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.ant-layout-content {
+  min-height: calc(100vh - 64px);
+  background: #f0f2f5;
+}
+
+/* Search container adjustments */
+.search-container {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Animation for header elements */
+.header-content {
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式卡片网格 */
+.notes-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  margin-bottom: 24px;
+}
+
+/* 响应式媒体查询 */
+@media screen and (max-width: 768px) {
+  .homepage-content {
+    padding: 0 12px;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-wrapper .ant-input-search {
+    max-width: 200px;
+  }
+
+  .app-header .home-button {
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+
+  .search-results {
+    width: 100%;
+    max-width: 300px;
+    right: -12px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .homepage-content {
+    padding: 0 8px;
+  }
+
+  .app-header .header-content {
+    padding: 8px 12px;
+  }
+
+  .search-wrapper.expanded .ant-input-search {
+    max-width: 150px;
+  }
+
+  .search-button {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .ant-card-head-title {
+    font-size: 16px;
+  }
+}
+
+/* 卡片响应式悬停效果 */
+.ant-card.hoverable {
+  transition: all 0.3s ease;
+}
+
+.ant-card.hoverable:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

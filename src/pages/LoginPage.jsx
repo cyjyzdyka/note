@@ -25,6 +25,13 @@ export default function LoginPage() {
 
   return (
     <div style={{ maxWidth: 400, margin: "0 auto", padding: "40px 20px" }}>
+      <Button 
+        onClick={() => navigate("/")} 
+        style={{ marginBottom: "20px" }}
+      >
+        返回主页
+      </Button>
+
       <Card>
         <Title level={2} style={{ textAlign: "center", marginBottom: 24 }}>
           登录
