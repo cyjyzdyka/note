@@ -44,7 +44,7 @@ const CreateNotePage = () => {
   };
 
   // 提交内容
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
       message.error("标题和内容不能为空！");
       return;
@@ -55,12 +55,21 @@ const CreateNotePage = () => {
       content: content.trim(),
     };
 
-    if (saveNote(newNote)) {
-      message.success("笔记创建成功！");
-      localStorage.removeItem("draftNote"); // 清除暂存的草稿
-      navigate("/notes"); // 跳转到笔记列表页
-    } else {
-      message.error("笔记创建失败！");
+    const loading = message.loading('正在保存并生成摘要...', 0);
+    
+    try {
+      if (await saveNote(newNote)) {
+        loading();
+        message.success("笔记创建成功！");
+        localStorage.removeItem("draftNote"); // 清除暂存的草稿
+        navigate("/notes"); // 跳转到笔记列表页
+      } else {
+        loading();
+        message.error("笔记创建失败！");
+      }
+    } catch (error) {
+      loading();
+      message.error("操作失败！");
     }
   };
 

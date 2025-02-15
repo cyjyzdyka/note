@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Input, Card, Space, message, Typography } from "antd";
+import { Button, Input, Card, Space, message, Typography, Spin } from "antd";
 import { HomeOutlined, SaveOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import RichTextEditor from "../components/RichTextEditor";
 import { getNote, saveNote } from "../utils/storage";
@@ -13,11 +13,13 @@ export default function NoteEditorPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [originalNote, setOriginalNote] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // 加载笔记内容
   useEffect(() => {
     const loadNote = () => {
-      const note = getNote(noteId);
+      setLoading(true);
+      const note = getNote(parseInt(noteId));
       if (note) {
         setTitle(note.title);
         setContent(note.content);
@@ -26,13 +28,16 @@ export default function NoteEditorPage() {
         message.error("笔记不存在！");
         navigate("/notes");
       }
+      setLoading(false);
     };
 
-    loadNote();
+    if (noteId) {
+      loadNote();
+    }
   }, [noteId, navigate]);
 
   // 保存笔记
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim() || !content.trim()) {
       message.error("标题和内容不能为空！");
       return;
@@ -44,11 +49,20 @@ export default function NoteEditorPage() {
       content: content.trim(),
     };
 
-    if (saveNote(updatedNote)) {
-      message.success("笔记已保存！");
-      navigate(`/notes/${noteId}`);
-    } else {
-      message.error("保存笔记失败！");
+    const loading = message.loading('正在保存并生成摘要...', 0);
+
+    try {
+      if (await saveNote(updatedNote)) {
+        loading();
+        message.success("笔记已保存！");
+        navigate(`/notes/${noteId}`);
+      } else {
+        loading();
+        message.error("保存笔记失败！");
+      }
+    } catch (error) {
+      loading();
+      message.error("操作失败！");
     }
   };
 
@@ -91,30 +105,36 @@ export default function NoteEditorPage() {
         </Space>
 
         <Card>
-          <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <Title level={2}>编辑笔记</Title>
-            
-            <Input
-              placeholder="笔记标题"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              size="large"
-            />
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '50px' }}>
+              <Spin size="large" />
+            </div>
+          ) : (
+            <Space direction="vertical" size="large" style={{ width: "100%" }}>
+              <Title level={2}>编辑笔记</Title>
+              
+              <Input
+                placeholder="笔记标题"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                size="large"
+              />
 
-            <RichTextEditor
-              value={content}
-              onChange={setContent}
-            />
+              <RichTextEditor
+                value={content}
+                onChange={setContent}
+              />
 
-            <Button
-              type="primary"
-              icon={<SaveOutlined />}
-              onClick={handleSave}
-              size="large"
-            >
-              保存笔记
-            </Button>
-          </Space>
+              <Button
+                type="primary"
+                icon={<SaveOutlined />}
+                onClick={handleSave}
+                size="large"
+              >
+                保存笔记
+              </Button>
+            </Space>
+          )}
         </Card>
       </Space>
     </div>

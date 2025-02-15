@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, List, Card, Typography, Space } from "antd";
+import { Button, List, Card, Typography, Space, Spin } from "antd";
 import { HomeOutlined, PlusOutlined } from "@ant-design/icons";
 import { getNotes } from "../utils/storage";
 import { stripHtml } from "../utils/htmlUtils";
@@ -50,8 +50,16 @@ function NotesPage() {
                     title={note.title}
                     description={
                       <Space direction="vertical" size={0}>
-                        <Typography.Paragraph ellipsis={{ rows: 2 }} style={{ marginBottom: 8 }}>
-                          {stripHtml(note.content)}
+                        <Typography.Paragraph 
+                          ellipsis={{ rows: 2 }} 
+                          style={{ marginBottom: 8 }}
+                        >
+                          {note.summary === undefined ? (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <Spin size="small" />
+                              <span>正在生成摘要...</span>
+                            </div>
+                          ) : note.summary || '暂无摘要'}
                         </Typography.Paragraph>
                         <Typography.Text type="secondary">
                           创建时间：{new Date(note.createdAt).toLocaleDateString()}
