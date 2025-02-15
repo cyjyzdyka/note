@@ -1,0 +1,35 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "testuser",
+        "password": "password123"
+      },
+      {
+        "id": 2,
+        "username": "cyj",
+        "password": "123"
+      }
+    ],
+    "notes": [
+      {
+        "id": 1,
+        "title": "示例笔记",
+        "content": "这是一个示例笔记内容。",
+        
+        "date": "2024/12/01"
+      },
+      {
+        "id": 2,
+        "title": "如何使用知识库",
+        "content": "这是一个关于如何使用知识库的详细说明。",
+        "date": "2024/12/11"
+      },
+      {
+        "id": 3,
+        "title": "学习React的最佳实践",
+        "content": "React的最佳实践包括组件化、Hooks的使用等。",
+        "date": "2024/12/10"
+      }
+    ]
+  }
