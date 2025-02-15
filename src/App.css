@@ -323,3 +323,117 @@
   transform: translateY(-5px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+.rich-text-editor {
+  width: 100%;
+}
+
+.rich-text-editor .ProseMirror {
+  outline: none;
+  min-height: 200px;
+}
+
+.rich-text-editor .ProseMirror p {
+  margin: 1em 0;
+}
+
+.rich-text-editor .ProseMirror > *:first-child {
+  margin-top: 0;
+}
+
+.rich-text-editor .ProseMirror ul,
+.rich-text-editor .ProseMirror ol {
+  padding-left: 2em;
+}
+
+.rich-text-editor .ProseMirror blockquote {
+  border-left: 3px solid #ddd;
+  margin-left: 0;
+  padding-left: 1em;
+  color: #666;
+}
+
+.rich-text-editor .ProseMirror pre {
+  background: #f4f4f4;
+  padding: 0.75em 1em;
+  border-radius: 4px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.rich-text-editor .ProseMirror table {
+  border-collapse: collapse;
+  margin: 0;
+  overflow: hidden;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.rich-text-editor .ProseMirror td,
+.rich-text-editor .ProseMirror th {
+  border: 2px solid #ced4da;
+  box-sizing: border-box;
+  min-width: 1em;
+  padding: 3px 5px;
+  position: relative;
+  vertical-align: top;
+}
+
+.rich-text-editor .ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
+
+.note-content {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.note-content h1,
+.note-content h2,
+.note-content h3,
+.note-content h4,
+.note-content h5,
+.note-content h6 {
+  margin: 1.5em 0 0.5em;
+}
+
+.note-content p {
+  margin: 1em 0;
+}
+
+.note-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.note-content blockquote {
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  border-left: 4px solid #1677ff;
+  background: #f5f5f5;
+  color: #666;
+}
+
+.note-content pre {
+  background: #f6f8fa;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.note-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+}
+
+.note-content th,
+.note-content td {
+  border: 1px solid #d9d9d9;
+  padding: 8px;
+}
+
+.note-content th {
+  background: #fafafa;
+}

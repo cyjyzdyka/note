@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import RichTextEditor from "../components/RichTextEditor";
 import { useNavigate } from "react-router-dom";
-import { Button, Input, Card, Space, Typography, message, Row, Col } from "antd";
-import { HomeOutlined, SaveOutlined, ClearOutlined, CheckOutlined } from "@ant-design/icons";
+import { Button, Input, Card, Space, Typography, message } from "antd";
+import { HomeOutlined, SaveOutlined, ClearOutlined } from "@ant-design/icons";
+import { saveNote } from "../utils/storage";
 
 const { Title } = Typography;
-const { TextArea } = Input;
 
 const CreateNotePage = () => {
-  const [title, setTitle] = useState(""); // 笔记标题
-  const [content, setContent] = useState(""); // 富文本内容
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const navigate = useNavigate();
 
   // 从 localStorage 加载暂存的笔记草稿
@@ -43,89 +43,82 @@ const CreateNotePage = () => {
     }
   };
 
-  // 提交内容（写入虚拟数据库并跳转）
+  // 提交内容
   const handleSubmit = () => {
     if (!title.trim() || !content.trim()) {
-      alert("标题和内容不能为空！");
+      message.error("标题和内容不能为空！");
       return;
     }
 
-    // 模拟虚拟数据库存储
-    const storedData = JSON.parse(localStorage.getItem("mockData")) || { notes: [] };
     const newNote = {
-      id: Date.now(), // 模拟唯一 ID
-      title,
-      content,
-      date: new Date().toISOString().split("T")[0], // 添加创建日期
+      title: title.trim(),
+      content: content.trim(),
     };
 
-    // 写入虚拟数据库
-    storedData.notes.push(newNote);
-    localStorage.setItem("mockData", JSON.stringify(storedData));
-
-    // 清空草稿
-    localStorage.removeItem("draftNote");
-
-    alert("笔记已提交！");
-    setTitle("");
-    setContent("");
-
-    // 跳转到主页
-    navigate("/", { replace: true }); // 跳转到主页并触发重新渲染
+    if (saveNote(newNote)) {
+      message.success("笔记创建成功！");
+      localStorage.removeItem("draftNote"); // 清除暂存的草稿
+      navigate("/notes"); // 跳转到笔记列表页
+    } else {
+      message.error("笔记创建失败！");
+    }
   };
 
   return (
-    <div className="homepage-content">
-      <Row justify="center">
-        <Col xs={24} sm={24} md={20} lg={16} xl={14}>
-          <Card>
+    <div style={{ maxWidth: 1000, margin: "24px auto", padding: "0 24px" }}>
+      <Space direction="vertical" size="large" style={{ width: "100%" }}>
+        <Space>
+          <Button 
+            icon={<HomeOutlined />} 
+            onClick={() => navigate("/")}
+          >
+            返回主页
+          </Button>
+        </Space>
+
+        <Card>
+          <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <Title level={2}>创建新笔记</Title>
             
-            <Space direction="vertical" size="large" style={{ width: "100%" }}>
-              <Input
-                placeholder="输入笔记标题"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+            <Input
+              placeholder="笔记标题"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              size="large"
+            />
+
+            <RichTextEditor
+              value={content}
+              onChange={setContent}
+            />
+
+            <Space>
+              <Button
+                type="primary"
+                icon={<SaveOutlined />}
+                onClick={handleSubmit}
                 size="large"
-              />
-              
-              <RichTextEditor value={content} onChange={setContent} />
-              
-              <Row gutter={[8, 8]}>
-                <Col xs={24} sm={8}>
-                  <Button 
-                    icon={<SaveOutlined />} 
-                    onClick={handleSave}
-                    block
-                  >
-                    保存草稿
-                  </Button>
-                </Col>
-                <Col xs={24} sm={8}>
-                  <Button 
-                    icon={<ClearOutlined />} 
-                    onClick={handleClear}
-                    danger
-                    block
-                  >
-                    清空内容
-                  </Button>
-                </Col>
-                <Col xs={24} sm={8}>
-                  <Button 
-                    type="primary"
-                    icon={<CheckOutlined />}
-                    onClick={handleSubmit}
-                    block
-                  >
-                    提交笔记
-                  </Button>
-                </Col>
-              </Row>
+              >
+                提交笔记
+              </Button>
+              <Button
+                icon={<SaveOutlined />}
+                onClick={handleSave}
+                size="large"
+              >
+                暂存草稿
+              </Button>
+              <Button
+                icon={<ClearOutlined />}
+                onClick={handleClear}
+                size="large"
+              >
+                清空内容
+              </Button>
             </Space>
-          </Card>
-        </Col>
-      </Row>
+          </Space>
+        </Card>
+      </Space>
     </div>
   );
 };
