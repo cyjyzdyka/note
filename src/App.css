@@ -437,3 +437,131 @@
 .note-content th {
   background: #fafafa;
 }
+
+/* 基础布局样式 */
+.layout {
+  min-height: 100vh;
+}
+
+.ant-layout-content {
+  padding: 24px;
+  background: #f0f2f5;
+}
+
+/* 响应式容器 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 笔记卡片网格布局 */
+.notes-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* 笔记编辑器容器 */
+.editor-container {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+/* 响应式媒体查询 */
+@media screen and (max-width: 1200px) {
+  .notes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ant-layout-content {
+    padding: 16px;
+  }
+  
+  .container {
+    padding: 0 12px;
+  }
+  
+  .editor-container {
+    padding: 0 16px;
+  }
+  
+  /* 调整按钮组在移动端的显示 */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* 调整卡片标题和内容在移动端的显示 */
+  .ant-card-head-title {
+    font-size: 16px;
+  }
+  
+  .ant-typography {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .ant-layout-content {
+    padding: 12px;
+  }
+  
+  .container {
+    padding: 0 8px;
+  }
+  
+  .editor-container {
+    padding: 0 12px;
+    margin: 16px auto;
+  }
+  
+  /* 调整富文本编辑器在移动端的显示 */
+  .rich-text-editor {
+    min-height: 200px;
+  }
+  
+  /* 调整按钮大小 */
+  .ant-btn {
+    font-size: 14px;
+    height: 32px;
+    padding: 4px 12px;
+  }
+}
+
+/* 笔记卡片悬停效果 */
+.note-card {
+  transition: all 0.3s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 富文本编辑器响应式样式 */
+.rich-text-editor {
+  width: 100%;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rich-text-editor {
+    border-color: #434343;
+    background: #141414;
+  }
+}

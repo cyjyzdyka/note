@@ -17,9 +17,9 @@ function NotesPage() {
   );
 
   return (
-    <div style={{ maxWidth: 1200, margin: "24px auto", padding: "0 24px" }}>
+    <div className="container">
       <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        <Space>
+        <Space wrap className="button-group">
           <Button 
             icon={<HomeOutlined />} 
             onClick={() => navigate("/")}
@@ -37,14 +37,22 @@ function NotesPage() {
 
         <Card title="全部笔记">
           <List
-            grid={{ gutter: 16, column: 3 }}
+            grid={{
+              gutter: 16,
+              xs: 1,    // <576px
+              sm: 1,    // ≥576px
+              md: 2,    // ≥768px
+              lg: 3,    // ≥992px
+              xl: 3,    // ≥1200px
+              xxl: 3,   // ≥1600px
+            }}
             dataSource={sortedNotes}
             renderItem={(note) => (
               <List.Item>
                 <Card
                   hoverable
+                  className="note-card"
                   onClick={() => navigate(`/notes/${note.id}`)}
-                  style={{ height: "100%" }}
                 >
                   <Card.Meta
                     title={note.title}

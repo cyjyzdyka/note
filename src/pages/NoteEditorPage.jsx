@@ -87,9 +87,9 @@ export default function NoteEditorPage() {
   }, [title, content, originalNote]);
 
   return (
-    <div style={{ maxWidth: 1000, margin: "24px auto", padding: "0 24px" }}>
+    <div className="editor-container">
       <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        <Space>
+        <Space wrap className="button-group">
           <Button 
             icon={<ArrowLeftOutlined />} 
             onClick={() => navigate(`/notes/${noteId}`)}
@@ -120,16 +120,19 @@ export default function NoteEditorPage() {
                 size="large"
               />
 
-              <RichTextEditor
-                value={content}
-                onChange={setContent}
-              />
+              <div className="rich-text-editor">
+                <RichTextEditor
+                  value={content}
+                  onChange={setContent}
+                />
+              </div>
 
               <Button
                 type="primary"
                 icon={<SaveOutlined />}
                 onClick={handleSave}
                 size="large"
+                block
               >
                 保存笔记
               </Button>
