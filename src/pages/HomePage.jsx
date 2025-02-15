@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Card, Input, List, Button, Row, Col, Typography } from "antd";
+import { PlusOutlined, UnorderedListOutlined } from "@ant-design/icons";
+
+const { Title, Paragraph } = Typography;
+const { Search } = Input;
 
 function Homepage() {
   const [notes, setNotes] = useState([]); // 所有笔记数据
@@ -39,59 +44,62 @@ function Homepage() {
 
   return (
     <div className="homepage">
-      <h1>欢迎来到知识库</h1>
-      <p>集中管理你的笔记、想法和知识。</p>
+      <Typography>
+        <Title level={1}>欢迎来到知识库</Title>
+        <Paragraph>集中管理你的笔记、想法和知识。</Paragraph>
+      </Typography>
 
-      {/* 快速操作 */}
-      <div className="quick-actions">
-        <Link to="/create" className="btn">
-          创建新笔记
-        </Link>
-        <Link to="/notes" className="btn">
-          查看所有笔记
-        </Link>
-      </div>
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+        <Col span={12}>
+          <Link to="/create">
+            <Button type="primary" icon={<PlusOutlined />} size="large" block>
+              创建新笔记
+            </Button>
+          </Link>
+        </Col>
+        <Col span={12}>
+          <Link to="/notes">
+            <Button icon={<UnorderedListOutlined />} size="large" block>
+              查看所有笔记
+            </Button>
+          </Link>
+        </Col>
+      </Row>
 
-      {/* 最近笔记预览 */}
-      <div className="recent-notes">
-        <h2>最近笔记</h2>
-        <ul>
-          {recentNotes.map((note) => (
-            <li key={note.id}>
-              <Link to={`/notes/${note.id}`}>
-                {note.title} - {note.date}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* 搜索框 */}
-      <div className="search-bar">
-        <h2>搜索笔记</h2>
-        <input
-          type="text"
+      <Card title="搜索笔记" style={{ marginBottom: 24 }}>
+        <Search
           placeholder="搜索标题或内容..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          enterButton
         />
-      </div>
-
-      {/* 搜索结果 */}
-      {filteredNotes.length > 0 && (
-        <div className="search-results">
-          <h2>搜索结果</h2>
-          <ul>
-            {filteredNotes.map((note) => (
-              <li key={note.id}>
+        {filteredNotes.length > 0 && (
+          <List
+            style={{ marginTop: 16 }}
+            dataSource={filteredNotes}
+            renderItem={(note) => (
+              <List.Item>
                 <Link to={`/notes/${note.id}`}>
                   {note.title} - {note.date}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+              </List.Item>
+            )}
+          />
+        )}
+      </Card>
+
+      <Card title="最近笔记">
+        <List
+          dataSource={recentNotes}
+          renderItem={(note) => (
+            <List.Item>
+              <Link to={`/notes/${note.id}`}>
+                {note.title} - {note.date}
+              </Link>
+            </List.Item>
+          )}
+        />
+      </Card>
     </div>
   );
 }
